@@ -1,50 +1,81 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../server/models/index');
+var models = require('../server/models');
 
-// GET home page. 
-router.get('/', function(req, res, next) {
-  models.Post.all({}).then(function(posts) {
-    res.render('allposts', {posts: posts});
-  });
-});
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
+
+  module.exports = function(passport) {
+    // GET home page. 
+    router.get('/', function(req, res, next) {
+      models.Post.all({}).then(function(posts) {
+        res.render('allposts', {posts: posts});
+      });
+    });
+
+    // SIGNUP =======================================
+    // show signup form
+    router.get('/register', function(req, res){
+      res.render('register');
+    })
     
-//create new user
-router.post('/users', function(req, res) {
-  models.User.create({
-    username: req.body.username,
-    password: req.body.password,
-    email: req.body.email,
-    firstname: req.body.firstname,
-    lastname: req.body.lastname
-  }).then(function(user) {
-    res.json(user);
-  });
-});
+    //process signup form
+    router.post('/signup', passport.authenticate('signup', {
+      successRedirect: '/profile',
+      failureRedirect: '/',
+      failureFlash: true
+    }));
 
-// get all posts
-router.get('/allposts', function(req, res) {
-  models.Post.findAll({}).then(function(posts) {
-    res.render('allposts', {posts: posts});
-  });
-});
+    // LOGIN =======================================
+    // show login form
+    router.get('/login', function(req, res) {
+      res.render('login');
+    });
 
-//get new post page
-router.get('/index', function(req, res) {
-  res.render('index');
-});
+    //process login
+    router.post('/login', passport.authenticate('login', {
+      successRedirect: '/profile',
+      failureRedirect: '/',
+      failureFlash: true
+    }));
 
-// add new post
-router.post('/posts', function(req, res) {
-  models.Post.create({
-    title: req.body.title,
-    body: req.body.body,
-    username: req.body.username,
-    UserId: req.body.user_id
-  }).then(function(post) {
-    res.render('allposts', {posts: post});
-  });
-});
+    //process logout
+    router.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+    });
 
+    // get profile
+    router.get('/profile', isAuthenticated, function(req, res){
+      res.render('profile', {'user': req.user})
+    });
+  
+    // get all posts
+    router.get('/allposts', function(req, res) {
+      models.Post.findAll({}).then(function(posts) {
+        res.render('allposts', {posts: posts});
+      });
+    });
+  
+    //get new post page
+    router.get('/index', isAuthenticated, function(req, res) {
+      res.render('index', {user: req.user});
+    });
+  
+    // add new post
+    router.post('/posts', function(req, res) {
+      models.Post.create({
+        title: req.param('title'),
+        body: req.param('body'),
+        username: req.body.username,
+        UserId: req.body.user_id
+      }).then(function(post) {
+        res.render('allposts', {posts: post});
+      });
+    });
+    return router;
+  }
 
-module.exports = router;
