@@ -45,8 +45,13 @@ Tables:
 		a. username *
 		b. title
 		c. messages
-		d. id
+		d. UserId
 	(add tags?)
+	3. Comments:
+		a. username
+		b. message
+		c. PostId
+		d. UserId
 
 Blog Home
 Sign In

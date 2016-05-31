@@ -11,7 +11,8 @@ var isAuthenticated = function (req, res, next) {
   module.exports = function(passport) {
     // GET home page. 
     router.get('/', function(req, res, next) {
-      models.Post.all({}).then(function(posts) {
+      models.Post.all({ include: [ models.User ] }).then(function(posts) {
+        console.log(posts)
         res.render('allposts', {posts: posts});
       });
     });
@@ -55,7 +56,8 @@ var isAuthenticated = function (req, res, next) {
   
     // get all posts
     router.get('/allposts', function(req, res) {
-      models.Post.findAll({}).then(function(posts) {
+      models.Post.findAll({ include: [ models.User ] }).then(function(posts) {
+        console.log(posts)        
         res.render('allposts', {posts: posts});
       });
     });
@@ -63,19 +65,28 @@ var isAuthenticated = function (req, res, next) {
     //get new post page
     router.get('/index', isAuthenticated, function(req, res) {
       res.render('index', {user: req.user});
-    });
+    }); 
   
     // add new post
     router.post('/posts', function(req, res) {
       models.Post.create({
         title: req.param('title'),
         body: req.param('body'),
-        username: req.body.username,
-        UserId: req.body.user_id
+        username: req.user.username,
+        UserId: req.user.id
       }).then(function(post) {
-        res.render('allposts', {posts: post});
+        res.redirect('/allposts');
       });
     });
+
+    // get own posts
+    router.get('/myposts', isAuthenticated, function(req, res) {
+      models.Post.findAll({where: {'UserId': req.user.id}})
+      .then(function(posts) {
+        res.render('myposts', {'myposts': posts});
+      });
+    });
+
     return router;
   }
 

@@ -1,8 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#author {
+	font-size: .5em;
 }
 
-a {
-  color: #00B7FF;
+#title {
+	font-size: 1.2em;
+}
+
+.posts {
+	background-color: #eeeeee;
+	margin-bottom: 20px;
+	padding: 10px;
 }

@@ -4,9 +4,9 @@ html( lang="en" )
 		meta( charset='utf-8' )
 		meta( http-equiv='X-UA-Compatible', content='IE=edge' )
 		meta( name='viewport', content='width=device-width, initial-scale=1.0' )
-		meta( name='description', content='Bulletin Board App' )
+		meta( name='description', content='amsterdAmerican Blog' )
 		link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
-		//link(href='/css/main.css', rel='stylesheet', type='text/css')
+		link(href='./stylesheets/style.css', rel='stylesheet', type='text/css')
 	body
 		.container-fluid
 			nav.navbar.navbar-default( role="navigation" )
@@ -23,7 +23,7 @@ html( lang="en" )
 						li: a(href="index") New Post
 						li: a(href="allposts") All Posts
 						li: a(href="register") Sign Up
-						li: a(href="mymessages") My Posts
+						li: a(href="myposts") My Posts
 						li: a(href="profile") Profile
 						li: a(href="login") Login
 			block content

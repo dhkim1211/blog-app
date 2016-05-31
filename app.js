@@ -10,6 +10,8 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
 
+var db = require('./server/models');
+db.sequelize.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
