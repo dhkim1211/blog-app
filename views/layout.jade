@@ -6,7 +6,7 @@ html( lang="en" )
 		meta( name='viewport', content='width=device-width, initial-scale=1.0' )
 		meta( name='description', content='Bulletin Board App' )
 		link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
-		link(href='/css/main.css', rel='stylesheet', type='text/css')
+		//link(href='/css/main.css', rel='stylesheet', type='text/css')
 	body
 		.container-fluid
 			nav.navbar.navbar-default( role="navigation" )
@@ -16,12 +16,12 @@ html( lang="en" )
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
-					a.navbar-brand(href="messages") Amsterdamerica Blog
+					a.navbar-brand(href="/") Amsterdamerica Blog
 
 				#navbar-inverse.collapse.navbar-collapse
 					ul.nav.navbar-nav
-						li: a( href="index2") New Message
-						li: a( href="messages") All Messages
-						li: a( href="mymessages") My Messages
-						li: a( href="profile") Profile
+						li: a(href="index") New Post
+						li: a(href="allposts") All Posts
+						li: a(href="mymessages") My Posts
+						li: a(href="profile") Profile
 			block content

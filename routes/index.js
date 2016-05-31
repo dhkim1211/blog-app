@@ -23,10 +23,15 @@ router.post('/users', function(req, res) {
 });
 
 // get all posts
-router.get('/posts', function(req, res) {
+router.get('/allposts', function(req, res) {
   models.Post.findAll({}).then(function(posts) {
-    res.json(posts);
+    res.render('allposts', {posts: posts});
   });
+});
+
+//get new post page
+router.get('/index', function(req, res) {
+  res.render('index');
 });
 
 // add new post
