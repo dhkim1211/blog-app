@@ -1,0 +1,93 @@
+extends layout
+
+block content
+	div.col-md-12
+		div.posts
+			each post in posts
+				p#title= post.title
+				p#author= "By: " 
+					em #{post.User.username} on #{post.createdAt.toLocaleDateString()} at #{post.createdAt.getHours()}:#{post.createdAt.getMinutes()<10?"0":""}#{post.createdAt.getMinutes()}
+				p#messages= post.body 
+				//a.btn.btn-xs.btn-danger Delete
+		each post in posts
+			form(action="/comments", method="POST", class="commentform")
+				input(value='#{post.id}' name='postid' hidden)
+				textarea#postcomment(placeholder="Type Comment Here..." name="body" rows="2" width: 100%)
+				br
+				button#submit(type="submit") Submit
+		h4 Comments:
+		each post in posts
+			each comm in post.Comments
+				div.comments
+					p#author= comm.User.username + ":"
+					p#comment= comm.body
+
+				
+
+//script.
+	var getmessageid = function() {
+		var urlParams;
+		(window.onpopstate = function () {
+			var match,
+			pl     = /\+/g,  // Regex for replacing addition symbol with a space
+			search = /([^&=]+)=?([^&]*)/g,
+			decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+			query  = window.location.search.substring(1);
+			urlParams = {};
+			while (match = search.exec(query))
+				urlParams[decode(match[1])] = decode(match[2]);
+		})();
+		return urlParams.id
+	}
+
+	var fillComments = function() {
+		mesid = getmessageid();
+		var parameters = { type: 'comment', action: 'read', filter: {PostId: mesid} };
+		console.log(parameters)
+		$.post( "/api", parameters, function( data ) {
+			for (i=0; i<data.length; i++) {
+				attachComment(data[i])
+			}
+		});
+	};
+
+	var clearComments = function() {
+		document.getElementById('comments').innerHTML = ''
+	}
+
+	var attachComment = function(comment, own) {
+		html = '<div class="col s12 grey lighten-4 z-depth-1" id="comment">\
+		<p>' + comment.body +'</p>\
+		<p>Posted by ' + comment.User.username'</p>\
+		</div>'
+		div = document.getElementById('comments')
+		if (own) {
+			div.innerHTML = html + div.innerHTML
+		} else {
+			div.innerHTML = div.innerHTML + html
+		} 
+	}
+
+	$('#submit').click(function(e){
+		mesid = getmessageid();
+		var parameters = { body: $('#postcomment').val(), type: 'comment', action: 'write', postid: mesid};
+		//console.log(parameters)
+
+		if (parameters.body) {
+			$.post( "/api", parameters, function( data ) {
+				if (data == 'OK') {
+					//Materialize.toast('You have successfully commented', 3000)
+					$("#postcomment").val('')
+					clearComments();
+					fillComments();
+				} else {
+					//Materialize.toast('Houston, we have a problem!', 3000)
+				}
+			});
+		};
+	});
+
+
+
+script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )

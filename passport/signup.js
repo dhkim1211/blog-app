@@ -8,7 +8,7 @@ module.exports = function(passport) {
 		},
 		function(req, username, password, done) {
 			findOrCreateUser = function() {
-				// find a user in Mongo with provided username
+				// find a user in Postgres with provided username
 				db.User.find({where: {'username': username}})
 					.then(function(user){
 						//user already exists

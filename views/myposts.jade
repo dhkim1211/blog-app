@@ -2,17 +2,12 @@ extends layout
 
 block content
 	div.col-md-12
-		h2 Messages:
-			br
-			br
-			each mypost in myposts
-				p.messages= "Title: " 
-					em #{mypost.title} 
-				p.messages= "Message: " 
-					em #{mypost.body}
+		each mypost in myposts
+			div.posts
+				p
+					a#title(href='posts/'+mypost.id) #{mypost.title}
+				p#messages= mypost.body
 				//a.btn.btn-xs.btn-danger Delete
-				br
-				br
 
 script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
 script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )

@@ -3,17 +3,16 @@ extends layout
 block content
 	div.col-md-12
 		h2 Posts:
-			br
-			br
-			each post in posts
-				div.posts
-					p#title= post.title
-					p#author= "By: " 
-						em #{post.User.username} 
-					p.messages= post.body 
-					//a.btn.btn-xs.btn-danger Delete
-					br
-					br
+
+		each post in posts
+			div.posts
+				p 
+					a#title(href='posts/'+post.id) #{post.title}
+				p#author= "By: "
+					em #{post.User.username} on #{post.createdAt.toLocaleDateString()} at #{post.createdAt.getHours()}:#{post.createdAt.getMinutes()<10?"0":""}#{post.createdAt.getMinutes()}
+				p#messages= post.body 
+				//a.btn.btn-xs.btn-danger Delete
+					
 
 script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
 script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )

@@ -3,17 +3,14 @@ extends layout
 block content
 	div.col-md-12
 			h2 #{user.username}:
-				br
-				br
-				p.messages= "Name: " 
-					em #{user.firstname} #{user.lastname}
-				p.messages= "Username: " 
-					em #{user.username} 
-				p.messages= "Email: " 
-					em #{user.email}
-				//a.btn.btn-xs.btn-danger Delete
-				br
-				br
+			p.profile= "Name: " 
+				em #{user.firstname} #{user.lastname}
+			p.profile= "Username: " 
+				em #{user.username} 
+			p.profile= "Email: " 
+				em #{user.email}
+			//a.btn.btn-xs.btn-danger Delete
+			
 
 script( src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
 script( src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )

@@ -6,7 +6,9 @@ html( lang="en" )
 		meta( name='viewport', content='width=device-width, initial-scale=1.0' )
 		meta( name='description', content='amsterdAmerican Blog' )
 		link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
-		link(href='./stylesheets/style.css', rel='stylesheet', type='text/css')
+		link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+		script(src="//code.jquery.com/jquery-2.2.3.min.js")
+		script(src='/js/main.js')
 	body
 		.container-fluid
 			nav.navbar.navbar-default( role="navigation" )
@@ -20,10 +22,18 @@ html( lang="en" )
 
 				#navbar-inverse.collapse.navbar-collapse
 					ul.nav.navbar-nav
-						li: a(href="index") New Post
-						li: a(href="allposts") All Posts
-						li: a(href="register") Sign Up
-						li: a(href="myposts") My Posts
-						li: a(href="profile") Profile
-						li: a(href="login") Login
+						li: a(href="/index") New Post
+						li: a(href="/allposts") All Posts
+						li: a(href="/myposts") My Posts
+						li: a(href="/profile") My Profile
+						li: a(href="/register") Sign Up
+						li: a(href="/login") Login
+						li: a(href="/logout") Logout
+					form#searchname(action="/search", name="searchbar", method="post", value="search")
+						row
+							div.input   
+								input#search(type="search", name="name", placeholder="Search Blog", autocomplete="off", list="result")
+								datalist#result
+							//div.actions
+								input(type="submit", value="Search")
 			block content
