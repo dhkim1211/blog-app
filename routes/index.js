@@ -11,9 +11,7 @@ var isAuthenticated = function (req, res, next) {
   module.exports = function(passport) {
     // GET home page. 
     router.get('/', function(req, res, next) {
-      models.Post.all({ include: [ models.User ] }).then(function(posts) {
-        res.render('allposts', {posts: posts});
-      });
+      res.render('/login');
     });
 
     // SIGNUP =======================================

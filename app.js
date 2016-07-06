@@ -13,6 +13,28 @@ var session = require('express-session');
 var db = require('./server/models');
 db.sequelize.sync();
 
+//sass
+var sass = require( 'node-sass' )
+var fs = require( 'fs' )
+
+sass.render( {
+   file: './sass/style.scss'
+}, (err, result) => { 
+   fs.writeFile( './public/stylesheets/style.css', result.css.toString(), ( err ) => {
+       if ( err ) throw err
+           console.log( 'Sass written to css' )
+   } )
+} )
+
+sass.render( {
+   file: './sass/_bootstrap.scss'
+}, (err, result) => { 
+   fs.writeFile( './public/stylesheets/bootstrap.css', result.css.toString(), ( err ) => {
+       if ( err ) throw err
+           console.log( 'Sass written to css' )
+   } )
+} )
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
